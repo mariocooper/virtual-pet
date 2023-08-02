@@ -1,11 +1,11 @@
 const MAXIMUM_FITNESS = 10;
 const INITIAL_AGE = 0;
-const INITIAL_HUNGER = 0;
+const MINIMUM_HUNGER = 0;
 
 function Pet(name) {
     this.name = name
     this.age = INITIAL_AGE
-    this.hunger = INITIAL_HUNGER
+    this.hunger = MINIMUM_HUNGER
     this.fitness = MAXIMUM_FITNESS
 }
 
@@ -21,6 +21,14 @@ Pet.prototype.walk = function() {
   } else {
     this.fitness = MAXIMUM_FITNESS;
   }
+}
+
+Pet.prototype.feed = function() {
+    if ((this.hunger - 3) <= MINIMUM_HUNGER) {
+        this.hunger = MINIMUM_HUNGER;
+    } else {
+      this.hunger -= 3;
+    }
 }
 
 module.exports = Pet;

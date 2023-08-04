@@ -14,6 +14,21 @@ describe('constructor', () => {
         const pet = new Pet('Fido')
         expect(pet.age).toEqual(0);
     });
+
+    it('has an inital hunger of 0', () => {
+        const pet = new Pet('Fido')
+        expect(pet.hunger).toEqual(0);
+    });
+
+    it('has an inital fitness of 10', () => {
+        const pet = new Pet('Fido')
+        expect(pet.fitness).toEqual(10);
+    });
+
+    it('has an empty children property initially', () => {
+        const pet = new Pet('Fido')
+        expect(pet.children).toEqual([]);
+    });
 });
 
 describe('growUp', () => {
@@ -155,5 +170,91 @@ describe('isAlive', () => {
         pet.hunger = 2;
         pet.fitness = 8;
         expect(pet.isAlive).toBeFalsy();
+    });
+});
+
+describe('adoptChild', () => {
+    it('returns a child property within the children array', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        parent.adoptChild(child1);
+        expect(parent.children).toEqual([{
+          name: 'Bella', 
+          age: 0, 
+          hunger: 0, 
+          fitness: 10, 
+          children: []
+        }])
+    });
+
+    it('returns multiple children within the children array when child instances are created', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        const child2 = new Pet('Sandy');
+        const child3 = new Pet('Peaches');
+        parent.adoptChild(child1)
+        parent.adoptChild(child2);
+        parent.adoptChild(child3);
+        expect(parent.children).toEqual([
+          {
+            name: 'Bella', 
+            age: 0, 
+            hunger: 0, 
+            fitness: 10, 
+            children: []
+          },
+          {
+            name: 'Sandy', 
+            age: 0, 
+            hunger: 0, 
+            fitness: 10, 
+            children: []
+          },
+          {
+            name: 'Peaches', 
+            age: 0, 
+            hunger: 0, 
+            fitness: 10, 
+            children: []
+          }
+        ])
+    });
+
+    it('increases childs age by 1', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        child1.growUp();
+        expect(child1.age).toEqual(1);
+    });
+
+    it('increases childs fitness by 4', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        child1.fitness = 5;
+        child1.walk();
+        expect(child1.fitness).toEqual(9);
+    });
+
+    it('decreases childs hunger by 1', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        child1.hunger = 5
+        child1.feed();
+        expect(child1.hunger).toEqual(2);
+    });
+
+    it('checks if child is feeling well', () => {
+        const parent = new Pet('Fido');
+        const child1 = new Pet('Bella');
+        child1.hunger = 3;
+        child1.fitness = 8;
+        child1.checkUp();
+        expect(child1.checkUp()).toEqual("I feel great!");
+    });
+
+    it('throws an error if the pet is not alive', () => {
+        const parent = new Pet('Fido');
+        parent.fitness = 0;
+        expect(() => parent.adoptChild()).toThrow("Your pet is no longer alive :(");
     });
 });

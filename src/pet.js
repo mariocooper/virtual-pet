@@ -11,10 +11,11 @@ const CRITICAL_FITNESS = 0;
 const ERROR = "Your pet is no longer alive :(";
 
 function Pet(name) {
-    this.name = name
-    this.age = INITIAL_AGE
-    this.hunger = MINIMUM_HUNGER
-    this.fitness = MAXIMUM_FITNESS
+    this.name = name;
+    this.age = INITIAL_AGE;
+    this.hunger = MINIMUM_HUNGER;
+    this.fitness = MAXIMUM_FITNESS;
+    this.children = [];
 }
 
 Pet.prototype = {
@@ -64,6 +65,14 @@ Pet.prototype.checkUp = function() {
     return HUNGRY;
   } else {
     return HAPPY;
+  }
+}
+
+Pet.prototype.adoptChild = function(child) {
+  if (!this.isAlive) {
+    throw new Error(ERROR);
+  } else {
+    this.children.push(child);
   }
 }
 
